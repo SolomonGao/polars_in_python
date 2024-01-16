@@ -6,19 +6,18 @@ from pyarrow import dataset as ds
 import pyarrow.parquet as pq
 
 # Now we can explore the relationships using unnest and explode
-
+# %%
 dcsv_parsed = pl.read_parquet("../data/chipotle_core_poi_and_patterns.parquet")
 # %%
-# explore the brands
 day_brand = dcsv_parsed\
     .select("placekey", "related_same_day_brand")\
-    .unnest("related_same_day_brand")\
-    .melt(id_vars="placekey")\
-    .drop_nulls()
-
+    .unnest('related_same_day_brand')\
+    .melt(id_vars="placekey").drop_nulls()
+# %%
+# explore the brands
 month_brand = dcsv_parsed\
     .select("placekey", "related_same_month_brand")\
-    .unnest("related_same_day_brand")\
+    .unnest("related_same_month_brand")\
     .melt(id_vars="placekey")\
     .drop_nulls()
 
